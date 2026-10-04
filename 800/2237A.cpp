@@ -5,7 +5,6 @@ void fast_io() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     #ifndef ONLINE_JUDGE
-    (void)freopen("input.txt","r",stdin);
     #endif
 }
 
@@ -23,17 +22,21 @@ void solve() {
         if (vec[i] < vec[i+1]) decending = true;
         sum += vec[i];
     }
+    sum += vec[n-1];
 
-    if (decending) {
+    if (!decending) {
         cout << sum << '\n';
         return;
     }
 
-    for (int i = 0; i < n+1; ++i) {
-        for (int v = 1; v < n; ++v) {
-            if (vec[i] < vec[v]) 
-                vec[v] = vec[i];
+    int mn = INT_MAX;
+
+    for (int i = 0; i < n; ++i) {
+        // retain minimum to achieve O(n) instead of n^2
+        if (vec[i] > mn) {
+            vec[i] = mn;
         }
+        mn = min(mn,vec[i]);
     }
 
     // recount sum
